@@ -7,11 +7,19 @@ class App extends React.Component {
       super(props);
       this.state = {
         pictures: [],
+        input: 'flower',
       }
+      this.handleSearch = this.handleSearch.bind(this);
+      this.updateInput = this.updateInput.bind(this);
     }
 
     componentDidMount() {
-      fetch('https://api.flickr.com/services/rest/?method=flickr.galleries.getPhotos&api_key=e682e046fa5968ade7ac0b42e5e2e95f&gallery_id=72157718793456406&extras=owner_name,description,tags&format=json&nojsoncallback=1&safe_search=1')
+      this.loadPics();
+    }
+
+    loadPics() {
+      /*fetch('https://api.flickr.com/services/rest/?method=flickr.galleries.getPhotos&api_key=e682e046fa5968ade7ac0b42e5e2e95f&gallery_id=72157718793456406&extras=owner_name,description,tags&format=json&nojsoncallback=1&safe_search=1')*/
+      fetch('https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=e682e046fa5968ade7ac0b42e5e2e95f&text=' + this.state.input + '&extras=owner_name,description,tags&format=json&nojsoncallback=1&safe_search=1')
       .then(function(response){return response.json();})
       .then(function(data){
         let picArray = data.photos.photo.map((pic) => {
@@ -43,10 +51,23 @@ class App extends React.Component {
         this.setState({pictures: picArray});
       }.bind(this))
     }
+
+    updateInput(e) {
+      this.setState({input: e.target.value});
+    }
+
+    handleSearch(txt) {
+      this.loadPics();
+    }
+
     render() {
       return (
         <div id="wrapper">
 		      <h1>Kate Arnold's Flickr Photo Stream</h1>
+          <div id="searchwrapper">
+            <input value={this.state.input} onChange={this.updateInput} placeholder="Search..." />
+            <button onClick={this.handleSearch}>Go</button>
+          </div>
           <div id="flickr">
             {this.state.pictures}
           </div>
