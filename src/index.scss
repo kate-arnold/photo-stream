@@ -1,0 +1,23 @@
+
+body {font-family:Lato, sans-serif;margin:16px;font-size:14px;}
+*, *:before, *:after {box-sizing:border-box;}
+#wrapper {width:2000px;max-width:100%;margin:16px auto;}
+#flickr {
+  display:grid;grid-gap:16px;grid-template-columns:repeat(auto-fill, minmax(240px, 1fr));
+
+  .image {
+    height:0;padding-top:66.6666%;background:#eeeeee;position:relative;overflow:hidden;
+    img {width:100%;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);}
+  }
+
+  a {color:#000;}
+
+  .title {font-weight:bold;font-size:16px;}
+
+  .details {
+    margin:8px 0 16px;
+    > div {margin-top:8px;}
+  }
+
+  .desc {word-break:break-word;}
+}
